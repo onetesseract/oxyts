@@ -43,6 +43,7 @@ export abstract class Command {
                 .setColor(config.colour)
                 .setTitle(post.data.title.length > 256 ? post.data.title.slice(0, 250) + '...' : post.data.title)
                 .setURL(post.data.url)
+                .setTimestamp(post.data.created_utc * 1000) // wants a ms time
                 .setAuthor({name: post.data.author, url: `https://reddit.com/u/${post.data.author}`})
                 .setFooter({text: `r/${subreddit} - upvotes: ${post.data.ups} - comments: ${post.data.num_comments}`})
             
