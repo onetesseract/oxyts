@@ -4,6 +4,8 @@ import { Intents, Interaction } from 'discord.js';
 import { dirname, importx } from "@discordx/importer";
 import { config } from './config/config.js';
 
+import { logger } from './logger.js';
+
 const client: Client = new Client({
 	intents: [
 		Intents.FLAGS.GUILDS,
@@ -28,11 +30,15 @@ client.once("ready", async () => {
 	// Initialise permissions
 	await client.initApplicationPermissions(true);
 
-	console.log(`Bot started, serving ${client.guilds.cache.size} guilds`)
+	logger.info(`Bot started, serving ${client.guilds.cache.size} guilds`)
 });
 
 client.on("interactionCreate", (inter: Interaction) => {
-	client.executeInteraction(inter);
+	try {
+		client.executeInteraction(inter);
+	} catch (e) {
+		logger.error(`ERROR running inter`,inter, e);
+	}
 });
 
 async function main() {
