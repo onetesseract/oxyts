@@ -1,4 +1,4 @@
 export const config = {
     'allow_nsfw': false,
-    "colour": "#FF0000"
+    "colour": "#FF0000",
 }

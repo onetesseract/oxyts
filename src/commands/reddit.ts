@@ -18,23 +18,23 @@ export abstract class Command {
         time: string | undefined | null,
         inter: CommandInteraction
     ) {
-        await inter.reply("working on it");
+        await inter.deferReply();
 
-        let params = {'sort': 'top', 'limit': 750};
+        let params = {'sort': 'top', 'limit': 100, 't': 'month'};
         if (time && time != null && time != '') {
             params['t'] = time;
         }
 
-        axios.get(`https://www.reddit.com/r/${subreddit}.json`, { params: params })
+        axios.get(`https://www.reddit.com/r/${subreddit}/top.json`, { params: params })
         .then((res) => {
-            let posts = res.data.data.children.filter((post) => {
+            let posts = res.data.data.children.filter((post: { data: { over_18: any; }; }) => {
                 return (post.data.over_18 && config.allow_nsfw && inter.channel?.isText && inter.channel['nsfw']) || !post.data.over_18
             });
             if (posts.length == 0) {
                 if (res.data.data.children.length != 0) {
-                    inter.reply(`No valid posts found. ${config.allow_nsfw ? 'You may be trying to access a nsfw sub in a sfw channel' : 'The bot owner may have disabled nsfw.'}`);
+                    inter.editReply(`No valid posts found. ${config.allow_nsfw ? 'You may be trying to access a nsfw sub in a sfw channel' : 'The bot owner may have disabled nsfw.'}`);
                 } else {
-                    inter.reply('No valid posts found.');
+                    inter.editReply('No valid posts found.');
                 }
                 return;
             }
@@ -57,7 +57,12 @@ export abstract class Command {
                 return;
             }
             inter.editReply({embeds: [embed]});
-
+        }).catch((err) => {
+            if (err?.response?.status == 404) {
+                inter.editReply(`We encountered a Not Found. ${subreddit} does not seem to exist.`);
+            } else {
+                inter.editReply(`We encountered a strange error fetching your content.`)
+            }
         })
     }
 }

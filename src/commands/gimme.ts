@@ -3,6 +3,7 @@ import { Discord, Slash, SlashChoice, SlashOption } from "discordx";
 import 'axios';
 import { config } from '../config/commands/gimme.js'; // TODO: fix this
 import axios from "axios";
+import { logger } from "../logger.js";
 
 @Discord()
 export abstract class Command {
@@ -16,7 +17,7 @@ export abstract class Command {
         type: string,
         inter: CommandInteraction
     ) {
-        await inter.reply("working on it");
+        await inter.deferReply();
 
         switch(type) {
 
@@ -31,7 +32,7 @@ export abstract class Command {
                         .setColor(config?.colours?.nasa ?? config.colour);
                     inter.editReply({ content: '', embeds: [embed] })
                 }).catch((err) => {
-                    console.warn(`WARN Error fetching NASA image api: ${err}`);
+                    logger.warn(`Error fetching NASA image api: ${err}`);
                     inter.editReply(config?.errors?.nasa ?? config.error);
                 });
                 break;
@@ -45,7 +46,7 @@ export abstract class Command {
                         .setColor(config?.colours?.meme ?? config.colour);
                     inter.editReply({ content: '', embeds: [embed] })
                 }).catch((err) => {
-                    console.warn(`WARN Error fetching meme image api: ${err}`);
+                    logger.warn(`Error fetching meme image api: ${err}`);
                     inter.editReply(config?.errors?.meme ?? config.error);
                 });
                 break;

@@ -6,13 +6,16 @@ import { config } from './config/config.js';
 
 import { logger } from './logger.js';
 
-const client: Client = new Client({
+export const client: Client = new Client({
 	intents: [
 		Intents.FLAGS.GUILDS,
 		Intents.FLAGS.GUILD_MEMBERS,
 		Intents.FLAGS.GUILD_MESSAGES,
 		Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
 		Intents.FLAGS.GUILD_VOICE_STATES,
+		Intents.FLAGS.GUILD_MESSAGES,
+		Intents.FLAGS.DIRECT_MESSAGES,
+
 	],
 	// botGuilds: ['846400341108850708'],
 });
@@ -33,11 +36,11 @@ client.once("ready", async () => {
 	logger.info(`Bot started, serving ${client.guilds.cache.size} guilds`)
 });
 
-client.on("interactionCreate", (inter: Interaction) => {
+client.on("interactionCreate", async (inter: Interaction) => {
 	try {
-		client.executeInteraction(inter);
+		await client.executeInteraction(inter);
 	} catch (e) {
-		logger.error(`ERROR running inter`,inter, e);
+		logger.error(`'${e}' running inter`, inter);
 	}
 });
 
