@@ -1,6 +1,6 @@
 export const config = {
     "keys": {
-        "nasa": "JLoJCkC6DXnJX6C8mW0jmSBAl7uGrNLlR5V27vbb"
+        "nasa": "NASA-IMAGE-KEY"
     },
     "colours": {
         "nasa": "#00000"

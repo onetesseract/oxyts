@@ -44,7 +44,7 @@ export const config = {
             'match_type': 'contains',
             'match_value': 'typescript',
             'response': 'typescript is as much of a scam as windows',
-            'negate': [],
+            'negate': ['user'],
             'reply_direct': false,
         },
         {
@@ -53,15 +53,7 @@ export const config = {
             'match_type': 'contains',
             'match_value': '<@692350815679152179>',
             'response': 'who pinged me',
-            'negate': [],
-            'reply_direct': false,
-        },
-        {
-            'ignore_case': true,
-            'match_type': 'contains',
-            'match_value': '<@488063040621641736>',
-            'response': 'warning: you may have pinged someone who is a degenerate who plays fortnite - https://up.tesscat.me/cchr',
-            'negate': [],
+            'negate': ['user'],
             'reply_direct': false,
         },
     ]
